@@ -1,0 +1,661 @@
+/* 全局變量優化 */
+:root {
+    --font-family: 'Noto Sans TC', 'PingFang TC', '微軟正黑體', 'Microsoft JhengHei', sans-serif;
+    --primary-color: #1A365D;        /* 主要強調色 - 深藍 */
+    --secondary-color: #2C5282;      /* 次要強調色 - 中藍 */
+    --accent-color: #38B2AC;         /* 重點強調色 - 青綠 */
+    --background-color: #1A202C;     /* 深色背景 */
+    --surface-color: #2D3748;        /* 表面顏色 */
+    --hover-color: #319795;          /* 懸停效果色 - 深青綠 */
+    --text-primary: #F7FAFC;         /* 主要文字 - 純白 */
+    --text-secondary: #E2E8F0;       /* 次要文字 - 淺灰 */
+    --text-tertiary: #A0AEC0;        /* 第三級文字 - 中灰 */
+    --gradient-start: #1A365D;       /* 漸層起始色 */
+    --gradient-end: #2C5282;         /* 漸層結束色 */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 16px rgba(0,0,0,0.1);
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.4s ease;
+    --container-width: 1200px;
+    --section-spacing: 6rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    line-height: 1.6;
+    background-color: var(--background-color);
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* 導航欄 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--surface-color);
+    padding: var(--spacing-md) 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-md);
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-fast);
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width var(--transition-normal);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* 英雄區域 */
+.hero {
+    padding: calc(var(--section-spacing) * 1.5) 0;
+    background: linear-gradient(
+        135deg,
+        var(--background-color),
+        var(--primary-color) 120%
+    );
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.hero p {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--text-secondary);
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+    animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+    max-width: 600px;
+    margin: var(--spacing-xl) auto 0;
+    animation: fadeInUp 0.8s ease-out 0.4s backwards;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform var(--transition-normal);
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+}
+
+.number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-xs);
+    transition: color var(--transition-normal);
+}
+
+.stat:hover .number {
+    color: var(--hover-color);
+}
+
+.label {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* 作品展示區域 */
+.works {
+    padding: var(--section-spacing) 0;
+    background-color: var(--surface-color);
+}
+
+.works h2 {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 4rem;
+    color: var(--text-primary);
+    position: relative;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.works h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, var(--accent-color), var(--hover-color));
+    transform: translateX(-50%);
+    border-radius: var(--border-radius-sm);
+}
+
+.works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+}
+
+.work-item {
+    perspective: 1000px;
+    height: 400px;
+    cursor: pointer;
+    animation: scaleIn 0.8s ease-out;
+}
+
+.work-item-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.work-item-front,
+.work-item-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(56, 178, 172, 0.2);
+}
+
+.work-item-front {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(
+        to bottom,
+        var(--gradient-start),
+        var(--gradient-end)
+    );
+}
+
+.work-item-front img {
+    width: 100%;
+    height: 65%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform var(--transition-normal);
+}
+
+.work-item:hover .work-item-inner {
+    transform: rotateY(180deg);
+}
+
+.work-item:hover .work-item-front img {
+    transform: scale(1.05);
+}
+
+.work-info {
+    padding: var(--spacing-md);
+    background: linear-gradient(
+        to bottom,
+        var(--gradient-start),
+        var(--gradient-end)
+    );
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.work-info h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.work-info p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.work-item-back {
+    background: var(--surface-color);
+    transform: rotateY(180deg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.work-item-back h3 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.25rem;
+}
+
+.work-item-back ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: var(--spacing-lg);
+}
+
+.work-item-back li {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-md);
+    position: relative;
+    line-height: 1.5;
+}
+
+.work-item-back li::before {
+    content: "•";
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+}
+
+/* 作品卡片背面的連結樣式 */
+.case-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--text-primary);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-normal);
+    display: inline-block;
+    margin-top: var(--spacing-lg);
+    font-weight: 500;
+}
+
+.case-link:hover {
+    background: var(--text-primary);
+    color: var(--surface-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(247, 250, 252, 0.15);
+}
+
+/* 學歷區域 */
+.education {
+    padding: var(--section-spacing) 0;
+    background-color: var(--background-color);
+}
+
+.education h2 {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 4rem;
+    color: var(--text-primary);
+    position: relative;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.education h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, var(--accent-color), var(--hover-color));
+    transform: translateX(-50%);
+    border-radius: var(--border-radius-sm);
+}
+
+.education-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.education-item {
+    background: var(--surface-color);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--accent-color);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.education-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(56, 178, 172, 0.15);
+}
+
+.education-item h3 {
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.5rem;
+}
+
+.education-item p {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-secondary);
+}
+
+.education-item .degree {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* 技能區域整體樣式 */
+.skills {
+    padding: var(--section-spacing) 0;
+    background-color: var(--surface-color);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* 技能類別樣式 */
+.skill-category {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* UX設計與研究區域 */
+.skill-category:first-child {
+    grid-column: 1;
+    grid-row: 1;
+    background: var(--surface-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+}
+
+/* 數據分析區域 */
+.skill-category:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+    background: var(--surface-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+}
+
+/* 設計工具區域 */
+.skill-category:nth-child(3) {
+    grid-column: 1;
+    grid-row: 3;
+    background: var(--surface-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+}
+
+/* 專業證照區域 */
+.skill-category:nth-child(4) {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    background: var(--surface-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-category h3 {
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.5rem;
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+.skill-category h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--accent-color);
+    border-radius: var(--border-radius-sm);
+}
+
+/* 技能標籤容器 */
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    width: 100%;
+}
+
+/* 一般技能標籤樣式 */
+.skill-tags span {
+    background: linear-gradient(
+        135deg,
+        var(--gradient-start),
+        var(--gradient-end)
+    );
+    border: 1px solid var(--accent-color);
+    color: var(--text-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.skill-tags span:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 178, 172, 0.15);
+    border-color: var(--hover-color);
+}
+
+/* 專業證照特殊樣式 */
+.skill-category:nth-child(4) .skill-tags {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.skill-category:nth-child(4) .skill-tags span {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 響應式設計 */
+@media (max-width: 1024px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .skill-category:first-child,
+    .skill-category:nth-child(2),
+    .skill-category:nth-child(3),
+    .skill-category:nth-child(4) {
+        grid-column: 1;
+        grid-row: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .skills-grid {
+        padding: 0 var(--spacing-md);
+    }
+
+    .skill-tags {
+        gap: var(--spacing-sm);
+    }
+
+    .skill-category {
+        padding: var(--spacing-md);
+    }
+
+    .skill-tags span {
+        font-size: 0.9rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+/* 頁尾 */
+.footer {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--background-color);
+    text-align: center;
+}
+
+.footer p {
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+}
+
+/* 聯繫信息樣式 */
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.contact-info span,
+.contact-info a {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(56, 178, 172, 0.1);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--accent-color);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-info a {
+    text-decoration: none;
+    color: var(--accent-color);
+}
+
+.contact-info a:hover {
+    background: var(--accent-color);
+    border-color: var(--hover-color);
+    color: var(--text-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(56, 178, 172, 0.2);
+}
+
+/* 無障礙支援 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* 全局動畫關鍵幀 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+} 
