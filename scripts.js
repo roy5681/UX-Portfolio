@@ -78,15 +78,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// 作品卡片翻轉效果（觸控設備支援）
+// 作品卡片翻轉效果
 document.querySelectorAll('.work-item').forEach(item => {
     const inner = item.querySelector('.work-item-inner');
     
-    if (window.matchMedia('(hover: none)').matches) {
-        item.addEventListener('click', () => {
-            inner.style.transform = inner.style.transform === 'rotateY(180deg)' 
-                ? 'rotateY(0)' 
+    item.addEventListener('click', function(e) {
+        // 如果點擊的是"了解更多"按鈕，不執行翻轉
+        if (e.target.classList.contains('case-link')) {
+            return;
+        }
+        
+        // 阻止事件冒泡
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // 執行翻轉
+        inner.style.transform = 
+            inner.style.transform === 'rotateY(180deg)' 
+                ? 'rotateY(0deg)' 
                 : 'rotateY(180deg)';
-        });
-    }
+    });
 }); 
