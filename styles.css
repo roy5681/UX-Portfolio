@@ -775,7 +775,7 @@ body {
 }
 
 .download-link::before {
-    content: '↓';
+    content: '🔍';
     margin-right: 8px;
     font-size: 1.2rem;
 }
