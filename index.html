@@ -26,17 +26,23 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <div id="shader-gradient-root"></div>
     <script type="text/babel">
-      async function loadShaderGradient() {
-        const { ShaderGradient } = await import("https://cdn.skypack.dev/@ruucm/shadergradient@latest");
+        async function loadShaderGradient() {
+            const { ShaderGradient } = await import("https://cdn.skypack.dev/@ruucm/shadergradient@latest");
         
-        function App() {
-          return <ShaderGradient width={window.innerWidth} height={window.innerHeight} />;
-        }
-    
-        ReactDOM.createRoot(document.getElementById("shader-gradient-root")).render(<App />);
-      }
-    
-      loadShaderGradient();
+            function App() {
+              return <ShaderGradient width={window.innerWidth} height={window.innerHeight} />;
+            }
+        
+            const root = ReactDOM.createRoot(document.getElementById("shader-gradient-root"));
+            root.render(<App />);
+        
+            // 監聽視窗大小變化，確保背景適應
+            window.addEventListener("resize", () => {
+              root.render(<App />);
+            });
+            }
+            
+            loadShaderGradient();
     </script>
 
 
