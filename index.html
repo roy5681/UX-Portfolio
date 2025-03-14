@@ -19,6 +19,28 @@
         </div>
     </nav>
 
+    
+    <!--react-->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="shader-gradient-root"></div>
+    <script type="text/babel">
+      async function loadShaderGradient() {
+        const { ShaderGradient } = await import("https://cdn.skypack.dev/@ruucm/shadergradient@latest");
+        
+        function App() {
+          return <ShaderGradient width={window.innerWidth} height={window.innerHeight} />;
+        }
+    
+        ReactDOM.createRoot(document.getElementById("shader-gradient-root")).render(<App />);
+      }
+    
+      loadShaderGradient();
+    </script>
+
+
+
     <section id="about" class="hero">
         <div class="container">
             <h1>UX設計與人因工程研究者</h1>
