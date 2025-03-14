@@ -30,6 +30,15 @@
     --section-spacing: 6rem;
 }
 
+#shader-gradient-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* 讓它在最底層 */
+}
+
 /* 基礎重置 */
 * {
     margin: 0;
@@ -42,12 +51,19 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     background-color: var(--background-color);
+
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: transparent;
 }
 
 .container {
     max-width: var(--container-width);
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
+    z-index: 1; /* 讓內容保持在前景 */
+    color: white; /* 確保文字可讀 */
 }
 
 /* 英雄區域 */
