@@ -36,7 +36,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1; /* 讓它在最底層 */
+  z-index: -10; /* 降低層級，避免被 body 蓋住 */
+  pointer-events: none; /* 避免影響互動 */
 }
 
 /* 基礎重置 */
@@ -50,20 +51,15 @@ body {
     font-family: var(--font-family);
     color: var(--text-primary);
     line-height: 1.6;
-    background-color: var(--background-color);
-
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    background: transparent;
+    background: transparent; /* 確保 ShaderGradient 可見 */
 }
 
 .container {
     max-width: var(--container-width);
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
-    z-index: 1; /* 讓內容保持在前景 */
-    color: white; /* 確保文字可讀 */
+    position: relative;
+    z-index: 1; /* 確保內容保持在前景 */
 }
 
 /* 英雄區域 */
